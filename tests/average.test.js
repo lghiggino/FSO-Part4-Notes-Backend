@@ -16,7 +16,7 @@ describe(average, () => {
         expect(result).toBe(1)
     })
 
-    it.only("average of empty array: [] is zero 0", () => {
+    it("average of empty array: [] is zero 0", () => {
         const result = average([])
         expect(result).toBe(0)
     })
