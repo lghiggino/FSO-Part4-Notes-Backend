@@ -4,23 +4,40 @@ const app = require("../app")
 
 const api = supertest(app)
 
-test("notes are returned as json", async () => {
-    await api
-        .get("/api/notes")
-        .expect(200)
-        .expect("Content-Type", /application\/json/)
+describe("GET", () => {
+    it("should return notes as json", async () => {
+        await api
+            .get("/api/notes")
+            .expect(200)
+            .expect("Content-Type", /application\/json/)
+    })
+
+    it("asserts that are TWO notes", async () => {
+        const response = await api.get("/api/notes")
+        expect(response.body).toHaveLength(2)
+    })
+
+    it("assers the content of the first note", async () => {
+        const response = await api.get("/api/notes")
+        expect(response.body[0].content).toBe("HTML is easy")
+    })
 })
 
-test("there are two notes", async () => {
-    const response = await api.get("/api/notes")
-    expect(response.body).toHaveLength(2)
+describe("POST", () => {
+    it("post one", async () => {
+        const result = await api.post("/api/notes",
+            {
+                "content": "Banana",
+                "date": new Date().toLocaleDateString(),
+                "important": true
+            }
+        )
+        // .expect(200)
+        // .expect("Content-Type", /application\/json/)
+        console.log(result)
+        expect(result.content).toBe("Banana")
+    })
 })
-
-test("the first note is about HTTP methods", async () => {
-    const response = await api.get("/api/notes")
-    expect(response.body[0].content).toBe("HTML is easy")
-})
-
 
 
 // test("post one", async () => {
