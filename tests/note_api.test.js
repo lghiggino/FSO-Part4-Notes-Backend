@@ -17,7 +17,7 @@ const initialNotes = [
     },
 ]
 
-beforeEach( async () => {
+beforeEach(async () => {
     await Note.deleteMany({})
     let noteObject = new Note(initialNotes[0])
     await noteObject.save()
@@ -33,58 +33,41 @@ describe("GET", () => {
             .expect("Content-Type", /application\/json/)
     })
 
-    it("asserts that are TWO notes", async () => {
-        const response = await api.get("/api/notes")
-        expect(response.body).toHaveLength(2)
-    })
-
     it("asserts the content of the first note", async () => {
         const response = await api.get("/api/notes")
         expect(response.body[0].content).toBe("HTML is easy")
     })
 
-    it("note with id is returned properly", async () => {
-        //     const result = await api
-        //         .get("/api/notes/1")
-        //         .expect(200)
-        //         .expect("Content-Type", /application\/json/)
-        //     console.log(result)
-        // })
+    it("returns all notes", async () => {
+        const response = await api.get("/api/notes")
+        expect(response.body).toHaveLength(initialNotes.length)
+    })
+
+    it("should return a specific note within the returned notes", async () => {
+        const response = await api.get("/api/notes")
+        const contents = response.body.map(r => r.content)
+        expect(contents).toContain("Browser can execute only Javascript")
+    })
+
+})
+
+describe("POST", () => {
+    it("should add a valid new note", async () => {
+        const newNote = {
+            content: "Async/Await simplifies making async calls",
+            date: new Date().toLocaleDateString(),
+            important: true
+        }
+
+        await api.post("/api/notes").send(newNote).expect(200).expect('Content-Type', /application\/json/)
+        const response = await api.get("/api/notes")
+        const contents = response.body.map(r => r.content)
+
+        expect(response.body).toHaveLength(3)
+        expect(contents).toContain("Async/Await simplifies making async calls")
     })
 })
 
-describe.skip("POST", () => {
-    it("post one", async () => {
-        const result = await api.post("/api/notes",
-            {
-                "content": "Banana",
-                "date": new Date().toLocaleDateString(),
-                "important": true
-            }
-        )
-        // .expect(200)
-        // .expect("Content-Type", /application\/json/)
-        console.log(result)
-        expect(result.content).toBe("Banana")
-    })
-})
-
-
-// test("post one", async () => {
-//     const result = await api.post("/api/notes", { "content": "Banana", "date": new Date().toLocaleDateString(), "important": true })
-//     // .expect(200)
-//     // .expect("Content-Type", /application\/json/)
-//     console.log(result)
-//     expect(result.content).toBe("Banana")
-// })
-
-// test("note with id is returned properly", async () => {
-//     const result = await api
-//         .get("/api/notes/1")
-//         .expect(200)
-//         .expect("Content-Type", /application\/json/)
-//     console.log(result)
-// })
 
 
 afterAll(() => {
