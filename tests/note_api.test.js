@@ -17,13 +17,22 @@ describe("GET", () => {
         expect(response.body).toHaveLength(2)
     })
 
-    it("assers the content of the first note", async () => {
+    it("asserts the content of the first note", async () => {
         const response = await api.get("/api/notes")
         expect(response.body[0].content).toBe("HTML is easy")
     })
+
+    it("note with id is returned properly", async () => {
+        //     const result = await api
+        //         .get("/api/notes/1")
+        //         .expect(200)
+        //         .expect("Content-Type", /application\/json/)
+        //     console.log(result)
+        // })
+    })
 })
 
-describe("POST", () => {
+describe.skip("POST", () => {
     it("post one", async () => {
         const result = await api.post("/api/notes",
             {
