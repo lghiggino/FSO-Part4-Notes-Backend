@@ -59,14 +59,27 @@ describe("POST", () => {
             important: true
         }
 
-        await api.post("/api/notes").send(newNote).expect(200).expect('Content-Type', /application\/json/)
+        await api.post("/api/notes").send(newNote).expect(200).expect("Content-Type", /application\/json/)
         const response = await api.get("/api/notes")
         const contents = response.body.map(r => r.content)
 
         expect(response.body).toHaveLength(3)
+        expect(response.body).toHaveLength(initialNotes.length + 1)
         expect(contents).toContain("Async/Await simplifies making async calls")
     })
+
+    it("should not allow a note without content to be saved", async () => {
+        const newNote = {
+            important: true
+        }
+
+        await api.post("/api/notes").send(newNote).expect(400)
+
+        const response = await api.get("/api/notes")
+        expect(response.body).toHaveLength(initialNotes.length)
+    })
 })
+
 
 
 
