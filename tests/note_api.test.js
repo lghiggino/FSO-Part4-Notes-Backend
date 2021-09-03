@@ -67,6 +67,16 @@ describe("POST", () => {
     })
 })
 
+// CTRL+F:  Our tests can now use helper module and be changed like this
+
+describe("DELETE", () => {
+    it("should delete a note using its id as reference", () => {
+        //await Note.findByIdAndRemove(request.params.id)
+        const response = await api.delete("/api/notes/:id")
+        expect(response.body).toHaveLength(helper.initialNotes.length - 1)
+    })
+})
+
 
 afterAll(() => {
     mongoose.connection.close()
