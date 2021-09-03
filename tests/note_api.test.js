@@ -1,9 +1,10 @@
-const mongoose = require("mongoose")
 const supertest = require("supertest")
+const mongoose = require("mongoose")
+const helper = require("./test_helper")
 const app = require("../app")
 const api = supertest(app)
 const Note = require("../models/noteModel")
-const helper = require("./test_helper")
+
 
 beforeEach(async () => {
     await Note.deleteMany({})
@@ -37,6 +38,19 @@ describe("GET", () => {
         expect(contents).toContain("Browser can execute only Javascript")
     })
 
+    it("should be able to view a specific note", async () => {
+        const notesAtStart = await helper.notesInDb() //retorna um map do get({})
+        const noteToView = notesAtStart[0]
+        console.log("noteToView", noteToView)
+
+        const resultNote = await api
+            .get(`/api/notes/${noteToView}`)
+            .expect(200)
+            .expect("Content-Type", /application\/json/)
+
+        const processedNoteToView = JSON.parse(JSON.stringify(noteToView))
+        expect(resultNote.body).toEqual(processedNoteToView)
+    }, 30000)
 })
 
 describe("POST", () => {
@@ -70,10 +84,20 @@ describe("POST", () => {
 // CTRL+F:  Our tests can now use helper module and be changed like this
 
 describe("DELETE", () => {
-    it("should delete a note using its id as reference", () => {
-        //await Note.findByIdAndRemove(request.params.id)
-        const response = await api.delete("/api/notes/:id")
-        expect(response.body).toHaveLength(helper.initialNotes.length - 1)
+
+    it("should delete a note using its id as reference", async () => {
+        const notesAtStart = await helper.notesInDb() //retorna um map do get({})
+        const noteToRemove = notesAtStart[0]
+
+        await api
+            .delete(`/api/notes/${noteToRemove}`)
+            .expect(204)
+
+        const notesAtEnd = await helper.notesInDb()
+        expect(notesAtEnd).toHaveLength(helper.initialNotes.length - 1)
+
+        const contents = notesAtEnd.map(r => r.content)
+        expect(contents).not.toContain(noteToRemove.content)
     })
 })
 
