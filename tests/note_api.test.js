@@ -38,17 +38,17 @@ describe("GET", () => {
         expect(contents).toContain("Browser can execute only Javascript")
     })
 
-    it("should be able to view a specific note", async () => {
-        const notesAtStart = await helper.notesInDb() //retorna um map do get({})
+    it.only("should be able get using the id", async () => {
+        const notesAtStart = await helper.notesInDb()
+
         const noteToView = notesAtStart[0]
-        console.log("noteToView", noteToView)
 
         const resultNote = await api
-            .get(`/api/notes/${noteToView}`)
+            .get(`/api/notes/${noteToView.id}`)
             .expect(200)
             .expect("Content-Type", /application\/json/)
-
         const processedNoteToView = JSON.parse(JSON.stringify(noteToView))
+
         expect(resultNote.body).toEqual(processedNoteToView)
     }, 30000)
 })
@@ -69,7 +69,7 @@ describe("POST", () => {
         expect(contents).toContain("Async/Await simplifies making async calls")
     })
 
-    it("should not allow a note without content to be saved", async () => {
+    it("should NOT allow a note without content to be saved", async () => {
         const newNote = {
             important: true
         }
@@ -88,9 +88,10 @@ describe("DELETE", () => {
     it("should delete a note using its id as reference", async () => {
         const notesAtStart = await helper.notesInDb() //retorna um map do get({})
         const noteToRemove = notesAtStart[0]
+        console.log(noteToRemove)
 
         await api
-            .delete(`/api/notes/${noteToRemove}`)
+            .delete(`/api/notes/${noteToRemove.id}`)
             .expect(204)
 
         const notesAtEnd = await helper.notesInDb()
