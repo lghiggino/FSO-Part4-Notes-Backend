@@ -13,18 +13,17 @@ notesRouter.get("/info", async (request, response) => {
 })
 
 notesRouter.get("/:id", async (request, response, next) => {
-    console.log("bateu aqui no router: ",request.params)
-    try {
-        const note = Note.findById(request.params.id)
-        if (note) {
-            console.log("chegou aqui:", JSON.stringify(note))
-            response.json(note)
-        } else {
-            response.status(404).end()
-        }
-    } catch (exception) {
-        next(exception)
+    console.log("bateu aqui no router: ", request.params)
+
+    const note = await Note.findById(request.params.id)
+    console.log("essa é a note", note)
+    if (note) {
+        console.log("chegou aqui:", JSON.stringify(note))
+        response.json(note)
+    } else {
+        response.status(404).end()
     }
+
 })
 
 notesRouter.post("/", async (request, response, next) => {
@@ -35,19 +34,14 @@ notesRouter.post("/", async (request, response, next) => {
         important: body.important || false,
         date: new Date()
     })
-    try {
-        const savedNote = await note.save()
-        response.json(savedNote)
-    }
-    catch (exception) { next(exception) }
+    const savedNote = await note.save()
+    response.json(savedNote)
+
 })
 
 notesRouter.delete("/:id", async (request, response, next) => {
-    try {
-        await Note.findByIdAndRemove(request.params.id)
-        response.status(204).end()
-    }
-    catch (exception) { next(exception) }
+    await Note.findByIdAndRemove(request.params.id)
+    response.status(204).end()
 })
 
 notesRouter.put("/:id", async (request, response, next) => {
@@ -58,11 +52,10 @@ notesRouter.put("/:id", async (request, response, next) => {
         important: body.important || false
     })
 
-    try {
-        const updatedNote = await Note.findByIdAndUpdate(request.params.id, note, { new: true })
-        response.json(updatedNote)
-    }
-    catch (exception) { next(exception) }
+
+    const updatedNote = await Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    response.json(updatedNote)
+
 })
 
 module.exports = notesRouter

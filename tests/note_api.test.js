@@ -38,7 +38,7 @@ describe("GET", () => {
         expect(contents).toContain("Browser can execute only Javascript")
     })
 
-    it.only("should be able get using the id", async () => {
+    it("should be able get using the id", async () => {
         const notesAtStart = await helper.notesInDb()
 
         const noteToView = notesAtStart[0]
@@ -88,7 +88,6 @@ describe("DELETE", () => {
     it("should delete a note using its id as reference", async () => {
         const notesAtStart = await helper.notesInDb() //retorna um map do get({})
         const noteToRemove = notesAtStart[0]
-        console.log(noteToRemove)
 
         await api
             .delete(`/api/notes/${noteToRemove.id}`)
@@ -99,6 +98,20 @@ describe("DELETE", () => {
 
         const contents = notesAtEnd.map(r => r.content)
         expect(contents).not.toContain(noteToRemove.content)
+    })
+    it("should throw when id is NOT found", async () => {
+        const notesAtStart = await helper.notesInDb() //retorna um map do get({})
+        const noteToRemove = notesAtStart[0]
+
+        await api
+            .delete(`/api/notes/${noteToRemove.id.concat("addTextToCreateFailure")}`)
+            .expect(400)
+
+        // const notesAtEnd = await helper.notesInDb()
+        // expect(notesAtEnd).toHaveLength(helper.initialNotes.length - 1)
+
+        // const contents = notesAtEnd.map(r => r.content)
+        // expect(contents).not.toContain(noteToRemove.content)
     })
 })
 
