@@ -99,20 +99,6 @@ describe("DELETE", () => {
         const contents = notesAtEnd.map(r => r.content)
         expect(contents).not.toContain(noteToRemove.content)
     })
-    it("should throw when id is NOT found", async () => {
-        const notesAtStart = await helper.notesInDb() //retorna um map do get({})
-        const noteToRemove = notesAtStart[0]
-
-        await api
-            .delete(`/api/notes/${noteToRemove.id.concat("addTextToCreateFailure")}`)
-            .expect(400)
-
-        // const notesAtEnd = await helper.notesInDb()
-        // expect(notesAtEnd).toHaveLength(helper.initialNotes.length - 1)
-
-        // const contents = notesAtEnd.map(r => r.content)
-        // expect(contents).not.toContain(noteToRemove.content)
-    })
 })
 
 
