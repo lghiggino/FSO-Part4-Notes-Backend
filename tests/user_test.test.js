@@ -12,12 +12,28 @@ beforeEach(async () => {
 
     const passwordHash = await bcrypt.hash("sekret", 10)
     const user = new User({ username: "root", passwordHash })
-
     await user.save()
+
+    const secondUser = new User({
+        "notes": [],
+        "username": "artoHellas",
+        "name": "Arto Hellas",
+        "password": passwordHash
+    })
+
+    await secondUser.save()
 })
 
 describe("GET - USERS", () => {
-    it("should initialize the DB with a user", async () => {
+    it("should retrieve every user at the DB", async () => {
+        const response = await api.get("/api/users")
+        console.log(response.body)
+        expect(response.body).toHaveLength(2)
+    })
+})
+
+describe("POST - USERS", () => {
+    it("should create with a fresh username", async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
@@ -32,12 +48,36 @@ describe("GET - USERS", () => {
             .expect(200)
             .expect("Content-Type", /application\/json/)
 
+
         const usersAtEnd = await helper.usersInDb()
-        expect(usersAtEnd).toHaveLength(usersAtStart.lenght + 1)
+        expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
 
         const usernames = usersAtEnd.map(u => u.username)
         expect(usernames).toContain(newUser.username)
     })
+
+    it.skip("should return with error if username already exists", async () => {
+        const usersAtStart = await helper.usersInDb()
+
+        const newUser = {
+            username: "root",
+            name: "Superuser",
+            password: "salainen",
+        }
+
+        const result = await api
+            .post("/api/users")
+            .send(newUser)
+            .expect(400)
+            .expect("Content-Type", /application\/json/)
+
+        expect(result.body.error).toContain("`username` to be unique")
+
+        const usersAtEnd = await helper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    })
+
+
 })
 
 

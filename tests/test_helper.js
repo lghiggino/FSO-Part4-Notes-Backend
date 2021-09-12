@@ -36,4 +36,9 @@ const usersInDb = async () => {
 }
 
 
-module.exports = { initialNotes, nonExistingId, notesInDb, usersInDb }
+module.exports = {
+    initialNotes,
+    nonExistingId,
+    notesInDb,
+    usersInDb
+}
