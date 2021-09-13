@@ -5,9 +5,11 @@ const app = express()
 const cors = require("cors")
 const notesRouter = require("./controllers/notesController")
 const usersRouter = require("./controllers/usersController")
+const commentRouter = require("./controllers/commentsController")
 const middleware = require("./utils/middleware")
 const logger = require("./utils/logger")
 const mongoose = require("mongoose")
+const commentsRouter = require("./controllers/commentsController")
 
 logger.info(`connecting to ${config.MONGODB_URI} ...`)
 
@@ -27,19 +29,9 @@ app.use(middleware.requestLogger)
 
 app.use("/api/notes", notesRouter)
 app.use("/api/users", usersRouter)
-
+app.use("/api/comments", commentsRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
 module.exports = app
-
-// const usersRouter = require("./controllers/usersController")
-// mongoose.connect(config.MONGODB_USERS_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-//     .then(() => {
-//         logger.info("Connected to MongoDB")
-//     })
-//     .catch(error => {
-//         logger.error("error connecting to MongoDB:", error.message)
-//     })
-// app.use("/api/users", usersRouter)
