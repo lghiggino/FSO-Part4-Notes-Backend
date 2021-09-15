@@ -1,7 +1,8 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxnaGlnZ2lubyIsImlkIjoiNjEzZmYyN2Q2MzQzNmYxNTE5ZThjNDRiIiwiaWF0IjoxNjMxNzA3MDQ2fQ.2yNpGB_CgdJdqVt2CZlG2mWMxB6AHd0YWLduzvJKoBE
 
 {
-    "content": "Rest Client for VSCode is a good tool for testing APIs",
+    "content": "This is another new note",
     "important": true
 }
