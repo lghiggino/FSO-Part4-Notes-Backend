@@ -30,9 +30,28 @@ describe("GET - USERS", () => {
         console.log(response.body)
         expect(response.body).toHaveLength(2)
     })
+
+    it.only("should get a user by its username", async () => {
+        //create a new user
+        const passwordHash = await bcrypt.hash("lghiggino", 10)
+        const newUser = new User({
+            "notes": [],
+            "username": "lghiggino",
+            "name": "Leonardo Ghiggino",
+            "password": passwordHash
+        })
+
+        await newUser.save()
+        //find the new user
+        const response = await api.get("/api/users/lghiggino")
+        console.log("THIS RESPONSE.BODY", response.body)
+        expect(response.body.username).toBe("lghiggino")
+        expect(response.body.name).toBe("Leonardo Ghiggino")
+    })
+
 })
 
-describe("POST - USERS", () => {
+describe.skip("POST - USERS", () => {
     it("should create with a fresh username", async () => {
         const usersAtStart = await helper.usersInDb()
 

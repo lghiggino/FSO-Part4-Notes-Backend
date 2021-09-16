@@ -8,6 +8,17 @@ usersRouter.get("/", async (request, response) => {
 
 })
 
+
+usersRouter.get("/:username", async (request, response) => {
+    console.log("request.params", request.params)
+    const user = await User.findOne({ username: request.params.username })
+    if (user) {
+        response.json(user)
+    } else {
+        response.status(404).end()
+    }
+})
+
 // usersRouter.get("/info", (request, response) => {
 //     User.find({}).then(users => {
 //         let numberOfUsers = users.length

@@ -30,7 +30,6 @@ notesRouter.get("/:id", async (request, response, next) => {
     } else {
         response.status(404).end()
     }
-
 })
 
 notesRouter.post("/", async (request, response, next) => {
