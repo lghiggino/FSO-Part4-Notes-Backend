@@ -1,7 +1,0 @@
-//GET ALL Notes
-GET http://localhost:3001/api/notes
-
-###
-
-//GET ONE - REMEMBER TO CHANGE THE FINAL NUMBER
-GET http://localhost:3001/api/notes/5
