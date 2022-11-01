@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
-const { requestLogger, unknownEndpoint, errorHandler } = require('./utils')
+const { requestLogger, unknownEndpoint, errorHandler } = require('./utils/utils')
 const Note = require('./models/note')
 
 const app = express()
