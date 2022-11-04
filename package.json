@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "build:ui": "rm -rf build && cd ../FSO-Part2/Notes/ && npm run build && cp -r build ../../FSO-Part3-Notes",
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "eslint": "^8.26.0",
+    "jest": "^29.2.2",
     "nodemon": "^2.0.20"
   }
 }
