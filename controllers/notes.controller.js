@@ -13,7 +13,11 @@ notesRouter.get('/', async (request, response, next) => {
 notesRouter.get('/:id', async (request, response, next) => {
   try {
     const noteWithId = await Note.findById(request.params.id)
-    response.json(noteWithId)
+    if (noteWithId) {
+      response.json(noteWithId)
+    } else {
+      response.status(404).end()
+    }
   } catch (error) {
     next(error)
   }
