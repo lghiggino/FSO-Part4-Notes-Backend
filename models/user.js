@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Note = require('./note')
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -10,6 +11,7 @@ const userSchema = new mongoose.Schema({
       ref: 'Note',
     },
   ],
+  // notes: Note.schema,
 })
 
 userSchema.set('toJSON', {

@@ -1,0 +1,22 @@
+GET http://localhost:3001/api/users
+###
+GET http://localhost:3001/api/users/6370daf9b965ac1a7b59db7b
+###
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "lghiggino",
+    "name": "Leonardo Ghiggino",
+    "password": "123123"
+}
+###
+DELETE http://localhost:3001/api/users/635ee078842393fe94450373
+###
+PUT http://localhost:3001/api/users/635ee0ae842393fe94450378
+Content-Type: application/json
+
+{
+    "content": "This note should be deleted",
+    "important": true
+}
