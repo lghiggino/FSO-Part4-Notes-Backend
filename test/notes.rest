@@ -6,16 +6,17 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "HTML is easy",
-    "important": false
+    "content": "USer id of the note creator is sent along with the note creation request",
+    "important": false,
+    "userId": "6370dd25655487023032ac88"
 }
 ###
-DELETE http://localhost:3001/api/notes/635ee078842393fe94450373
+DELETE http://localhost:3001/api/notes/635bb2f8466f28ebc1478beb
 ###
-PUT http://localhost:3001/api/notes/635ee0ae842393fe94450378
+PUT http://localhost:3001/api/notes/6372227a9509551c3afa9604
 Content-Type: application/json
 
 {
-    "content": "This note should be deleted",
+    "content": "User id of the note creator is sent along with the note creation request",
     "important": true
 }
