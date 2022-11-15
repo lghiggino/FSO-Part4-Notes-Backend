@@ -6,9 +6,9 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "USer id of the note creator is sent along with the note creation request",
+    "content": "This note belongs to root user",
     "important": false,
-    "userId": "6370dd25655487023032ac88"
+    "userId": "6370daf9b965ac1a7b59db7b"
 }
 ###
 DELETE http://localhost:3001/api/notes/635bb2f8466f28ebc1478beb
@@ -17,6 +17,6 @@ PUT http://localhost:3001/api/notes/6372227a9509551c3afa9604
 Content-Type: application/json
 
 {
-    "content": "User id of the note creator is sent along with the note creation request",
+    "content": "This is a new note for a currrent user",
     "important": true
 }
