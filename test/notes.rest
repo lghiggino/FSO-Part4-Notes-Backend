@@ -4,11 +4,12 @@ GET http://localhost:3001/api/notes/63567582b7003523611d7ab9
 ###
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxnaGlnZ2lubyIsImlkIjoiNjM3MGRkMjU2NTU0ODcwMjMwMzJhYzg4IiwiaWF0IjoxNjY4Njg2MzM1fQ.BvdoOH6Wt4cZi8jygG8y8S__AIU-9VD0QQQ4H98YvG0
 
 {
-    "content": "This note belongs to root user",
+    "content": "another note with env bearer",
     "important": false,
-    "userId": "6370daf9b965ac1a7b59db7b"
+    "userId": "6370dd25655487023032ac88"
 }
 ###
 DELETE http://localhost:3001/api/notes/635bb2f8466f28ebc1478beb
