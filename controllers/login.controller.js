@@ -22,7 +22,11 @@ loginRouter.post("/", async (request, response, next) => {
       id: user._id,
     };
 
-    const token = jwt.sign(userForToken, process.env.SECRET);
+    const oneHour = 60 * 60;
+
+    const token = jwt.sign(userForToken, process.env.SECRET, {
+      expiresIn: oneHour,
+    });
 
     response
       .status(200)
