@@ -14,7 +14,8 @@ const mongoose = require("mongoose");
 
 logger.info("connecting to", config.MONGODB_URI);
 
-mongoose
+(async () => {
+  await mongoose
   .connect(config.MONGODB_URI)
   .then(() => {
     logger.info("connected to MongoDB");
@@ -22,6 +23,7 @@ mongoose
   .catch((error) => {
     logger.error("error connecting to MongoDB:", error.message);
   });
+})();
 
 app.use(cors());
 app.use(express.static("build"));
