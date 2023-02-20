@@ -42,12 +42,18 @@ notesRouter.post("/", async (request, response, next) => {
   const body = request.body;
   const token = getTokenFrom(request);
   const decodedToken = jwt.verify(token, process.env.SECRET);
+  console.log({ decodedToken });
 
   if (!decodedToken.id) {
     return response.status(401).json({ error: "token missing or invalid" });
   }
 
   const user = await User.findById(body.userId);
+
+  if (!user) {
+    return response.status(401).json({ error: "invalid user or request" });
+  }
+
 
   const note = new Note({
     content: body.content,
@@ -61,7 +67,6 @@ notesRouter.post("/", async (request, response, next) => {
     await user.save();
 
     response.status(201).json(savedNote);
-
   } catch (error) {
     next(error);
   }
